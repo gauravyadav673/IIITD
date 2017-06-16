@@ -246,6 +246,12 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         alertDialog.show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRequestQueue.cancelAll(Config.REQUEST_QUEUE_TAG);
+    }
+
     private void regCustomerOnServer() {
         mProgressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.REGISTER_CUSTOMER_URL, new Response.Listener<String>() {
@@ -290,6 +296,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 return params;
             }
         };
+        stringRequest.setTag(Config.REQUEST_QUEUE_TAG);
         mRequestQueue.add(stringRequest);
     }
 
