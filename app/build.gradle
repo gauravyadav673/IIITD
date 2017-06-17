@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.naanizcustomer.naaniz"
         minSdkVersion 16
@@ -22,18 +22,27 @@ android {
 repositories {
     mavenCentral()
 }
-
+repositories {
+    maven {
+        url "http://hypertrack-android-sdk.s3-website-us-west-2.amazonaws.com/"
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.google.android.gms:play-services:11.0.0'
-    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+
     compile 'com.facebook.android:account-kit-sdk:4.11.0'
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.volley:volley:1.0.0'
+    compile("com.hypertrack:android:0.2.8:release@aar") {
+        transitive = true;
+    }
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
     testCompile 'junit:junit:4.12'
+
 }

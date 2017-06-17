@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.naanizcustomer.naaniz">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -8,7 +9,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
+        android:name=".application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,18 +20,23 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
+            tools:replace="android:value"
             android:value="@string/YOUR_API_KEY"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
+            tools:replace="android:value"
             android:value="@string/facebook_app_id"/>
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
+            tools:replace="android:value"
             android:value="@string/app_name"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
+            tools:replace="android:value"
             android:value="@string/facebook_app_id"/>
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
+            tools:replace="android:value"
             android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN"/>
 
         <activity android:name="com.facebook.accountkit.ui.AccountKitActivity">

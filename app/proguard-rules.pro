@@ -30,3 +30,5 @@
    com.facebook.appevents.AppEventsLogger newLogger(android.content.Context);
    void logSdkEvent(java.lang.String, java.lang.Double, android.os.Bundle);
 }
+-keep class com.hypertrack.lib.** { *; }
+-dontwarn com.hypertrack.lib.**

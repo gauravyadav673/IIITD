@@ -21,7 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.facebook.FacebookSdk;
+
 import com.facebook.accountkit.AccessToken;
 import com.facebook.accountkit.Account;
 import com.facebook.accountkit.AccountKit;
@@ -70,11 +70,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private RequestQueue mRequestQueue;
     private ProgressDialog mProgressDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(RegisterActivity.this);
+     //   FacebookSdk.sdkInitialize(RegisterActivity.this);
         AccountKit.initialize(RegisterActivity.this);
         setContentView(R.layout.activity_register);
         mContext = RegisterActivity.this;
@@ -198,6 +197,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                     mAddress = place.getAddress().toString();
                     mAddrTv.setText(mAddress);
                     placeKnown = true;
+                }else{
+                    Util.toastS(mContext,"Error");
                 }
                 break;
             case Config.PHONE_REQUEST_CODE:

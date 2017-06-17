@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.FacebookSdk;
+
 import com.facebook.accountkit.AccountKit;
 import com.naanizcustomer.naaniz.R;
 import com.naanizcustomer.naaniz.utils.SharedPrefUtil;
@@ -17,7 +17,7 @@ public class LandingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(LandingActivity.this);
+     //   FacebookSdk.sdkInitialize(LandingActivity.this);
         AccountKit.initialize(LandingActivity.this);
         setContentView(R.layout.activity_main);
         mSharedPrefUtil = new SharedPrefUtil(LandingActivity.this);
