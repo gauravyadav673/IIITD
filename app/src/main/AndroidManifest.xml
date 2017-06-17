@@ -20,24 +20,24 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            tools:replace="android:value"
-            android:value="@string/YOUR_API_KEY"/>
+            android:value="@string/YOUR_API_KEY"
+            tools:replace="android:value"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            tools:replace="android:value"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value"/>
         <meta-data
             android:name="com.facebook.accountkit.ApplicationName"
-            tools:replace="android:value"
-            android:value="@string/app_name"/>
+            android:value="@string/app_name"
+            tools:replace="android:value"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            tools:replace="android:value"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value"/>
         <meta-data
             android:name="com.facebook.accountkit.ClientToken"
-            tools:replace="android:value"
-            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN"/>
+            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN"
+            tools:replace="android:value"/>
 
         <activity android:name="com.facebook.accountkit.ui.AccountKitActivity">
             <intent-filter>
@@ -61,7 +61,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
+        </activity>
+        <activity android:name=".activities.TrackingActivity"
+            android:theme="@style/AppThemeNoActionBar">
         </activity>
     </application>
 

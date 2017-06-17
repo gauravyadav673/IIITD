@@ -19,7 +19,7 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
      //   FacebookSdk.sdkInitialize(LandingActivity.this);
         AccountKit.initialize(LandingActivity.this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_landing);
         mSharedPrefUtil = new SharedPrefUtil(LandingActivity.this);
     }
 
