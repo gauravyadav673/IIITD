@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.naanizcustomer.naaniz.activities.TrackingActivity">
-    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete Action"
+        android:id="@+id/complete_action_btn"
+        android:layout_alignParentBottom="true"/>
+
+    <fragment
+        android:id="@+id/htMapfragment"
+        android:name="com.hypertrack.lib.HyperTrackMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/complete_action_btn"
+        tools:layout="@layout/fragment_map" />
+
 
 </RelativeLayout>

@@ -116,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             public void onClick(View v) {
                 mCustomerName = mNameInp.getText().toString();
                 if ((mCustomerName.length() > 0) && (mCustomerNumber != 0) && placeKnown) {
-                    mProgressDialog = Util.getProgDialog(mContext, "Registering", "Please Waiting we are logging you in...", false);
+                    mProgressDialog = Util.getProgDialog(mContext, "Registering", "Please Wait we are logging you in...", false);
                     regCustomerOnServer();
                 } else {
                     Util.toastS(mContext, "Some fields Empty");
