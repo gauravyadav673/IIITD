@@ -4,25 +4,44 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.accountkit.AccountKit;
 import com.hypertrack.lib.HyperTrack;
 import com.hypertrack.lib.callbacks.HyperTrackCallback;
 import com.hypertrack.lib.models.ErrorResponse;
 import com.hypertrack.lib.models.SuccessResponse;
 import com.naanizcustomer.naaniz.R;
+import com.naanizcustomer.naaniz.adapters.ItemsRecycyclerViewAdapter;
+import com.naanizcustomer.naaniz.app.Config;
+import com.naanizcustomer.naaniz.models.Items;
 import com.naanizcustomer.naaniz.utils.SharedPrefUtil;
 import com.naanizcustomer.naaniz.utils.Util;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class LandingActivity extends AppCompatActivity {
     private SharedPrefUtil mSharedPrefUtil;
     private Button mTrackBtn;
+    private RequestQueue mRequestQueue;
+    private final String TAG="LANDING";
+    private RecyclerView mItemRV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +51,15 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
         mTrackBtn = (Button) findViewById(R.id.track_btn);
         mSharedPrefUtil = new SharedPrefUtil(LandingActivity.this);
+        mRequestQueue= Volley.newRequestQueue(LandingActivity.this);
         mTrackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 trackAction();
             }
         });
+        initItemsRecyclerView();
+        getAllItems();
     }
 
     @Override
@@ -86,5 +108,59 @@ public class LandingActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void getAllItems(){
+        String url= Config.API_URL+Config.ITEMS_URL+Config.GET_ALL_ITEMS_URL;
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG,response);
+                try {
+                    JSONArray jsonArray=new JSONArray(response);
+                    Log.d(TAG,"array"+jsonArray.toString());
+                    JSONObject jsonObject=jsonArray.getJSONObject(0);
+                    ArrayList<Items> itemses=new ArrayList<>();
+                    int success=jsonObject.getInt("success");
+                    if (success==1){
+                        Log.d(TAG,"success");
+                        JSONObject jsonObject1=jsonArray.getJSONObject(1);
+                        JSONArray mAllItems=jsonObject1.getJSONArray("data");
+                        for (int i=0;i<mAllItems.length();i++){
+                            JSONObject item=mAllItems.getJSONObject(i);
+                            Log.d(TAG,""+i+item.toString());
+                            String price=item.getJSONObject("Details").getString("Price");
+                            String priceType=item.getJSONObject("Details").getString("PriceType");
+                            String categ=item.getString("Category");
+                            String name=item.getString("ItemName");
+                            String soldBy=item.getString("SoldBy");
+                            Double pr=Double.parseDouble(price);
+                            int sldby=Integer.parseInt(soldBy);
+                            itemses.add(new Items(categ,name,priceType,sldby,pr));
+                        }
+                        setAdapterToRV(itemses);
+                    }else{
+                        Log.d(TAG,"failure");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG,error.toString());
+            }
+        });
+        stringRequest.setTag(Config.GET_ITEMS_QUEUE_TAG);
+        mRequestQueue.add(stringRequest);
+    }
+    private void initItemsRecyclerView(){
+        mItemRV=(RecyclerView)findViewById(R.id.items_recycler_view);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(LandingActivity.this,LinearLayoutManager.VERTICAL,false);
+        mItemRV.setLayoutManager(linearLayoutManager);
+    }
+    private void setAdapterToRV(ArrayList<Items> itemses){
+        mItemRV.setAdapter(new ItemsRecycyclerViewAdapter(itemses,LandingActivity.this));
     }
 }

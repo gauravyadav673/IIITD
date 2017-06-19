@@ -3,11 +3,15 @@ package com.naanizcustomer.naaniz.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ParseException;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import com.naanizcustomer.naaniz.app.Config;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by hemba on 6/14/2017.
@@ -35,6 +39,34 @@ public class Util {
             }
         }
         return true;
+    }
+    public java.util.Date dateFromString() {
+
+
+        String dtStart = "2010-10-15T09:27:37Z";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date=new Date();
+        try {
+        date = format.parse(dtStart);
+            System.out.println(date);
+        } catch (java.text.ParseException e1) {
+            e1.printStackTrace();
+        }
+        return date;
+    }
+    private String stringFromDate() {
+
+
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date = new Date();
+        String datetime=null;
+        try {
+            datetime = dateformat.format(date);
+            System.out.println("Current Date Time : " + datetime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return datetime;
     }
 
 }

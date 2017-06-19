@@ -255,7 +255,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     private void regCustomerOnServer() {
         mProgressDialog.show();
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Config.REGISTER_CUSTOMER_URL, new Response.Listener<String>() {
+        String mRegUrl=Config.API_URL+Config.CUSTOMERS_URL+Config.REGISTER_CUSTOMER_URL;
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, mRegUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
