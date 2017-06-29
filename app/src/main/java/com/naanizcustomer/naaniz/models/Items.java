@@ -5,11 +5,11 @@ package com.naanizcustomer.naaniz.models;
  */
 
 public class Items {
-    private String mCategory,mItemName,mPriceType;
-    private int mSoldBy;
+    private String mCategory,mItemName,mPriceType,mSoldBy;
+
     private Double mPrice;
 
-    public Items(String category, String itemName, String priceType, int soldBy, Double price) {
+    public Items(String category, String itemName, String priceType, String soldBy, Double price) {
         mCategory = category;
         mItemName = itemName;
         mPriceType = priceType;
@@ -41,11 +41,11 @@ public class Items {
         mPriceType = priceType;
     }
 
-    public int getSoldBy() {
+    public String getSoldBy() {
         return mSoldBy;
     }
 
-    public void setSoldBy(int soldBy) {
+    public void setSoldBy(String soldBy) {
         mSoldBy = soldBy;
     }
 

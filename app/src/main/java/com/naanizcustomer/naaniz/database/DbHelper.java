@@ -66,9 +66,9 @@ public class DbHelper extends SQLiteOpenHelper {
             l--;
             String name = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_NAME));
             String category=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_CATEGORY));
-            String price=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_CATEGORY));
-            String quantity=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_CATEGORY));
-            String vendor_aadhaar=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_CATEGORY));
+            String price=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_PRICE));
+            String quantity=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_QUANTITY));
+            String vendor_aadhaar=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_VENDOR_AADHAAR));
             Double mPrice=Double.parseDouble(price);
             Double mQuantity=Double.parseDouble(quantity);
             Integer mAadhaar=Integer.parseInt(vendor_aadhaar);

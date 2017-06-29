@@ -6,6 +6,7 @@ package com.naanizcustomer.naaniz.interfaces;
 
 public interface SharedPrefConstantUtils {
     String FILE_NAME = "naanicustomer";
+    String FIREBASE_TOKEN="fire_token";
     String CUSTOMER_NAME = "name";
     String CUSTOMER_CONTACT="contact";
     String CUSTOMER_LAT="latitude";

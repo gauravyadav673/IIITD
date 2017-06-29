@@ -4,6 +4,7 @@
     <string name="facebook_app_id">800173313493910</string>
     <string name="ak_login_protocol_scheme">ak800173313493910</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">5f81f1374328b6976a2b048e324853c6</string>
+    <string name="HyperTrackPublishableKey">pk_test_85339dfaec5b09d0860645b6a8aa91ea609245e6</string>
 
 
 </resources>

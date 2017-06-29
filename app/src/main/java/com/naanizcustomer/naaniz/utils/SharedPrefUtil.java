@@ -53,4 +53,11 @@ public class SharedPrefUtil implements SharedPrefConstantUtils {
     public void deleteCustomerDetails(){
         mEditor.clear().apply();
     }
+    public void saveToken(String token){
+        mEditor.putString(FIREBASE_TOKEN,token);
+        mEditor.apply();
+    }
+    public String getToken(){
+        return mSharedPreferences.getString(FIREBASE_TOKEN,null);
+    }
 }

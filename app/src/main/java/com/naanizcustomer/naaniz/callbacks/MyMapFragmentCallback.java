@@ -1,21 +1,72 @@
 package com.naanizcustomer.naaniz.callbacks;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.hypertrack.lib.HyperTrackMapFragment;
 import com.hypertrack.lib.MapFragmentCallback;
 import com.hypertrack.lib.models.Action;
+import com.naanizcustomer.naaniz.utils.Util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by hemba on 6/17/2017.
  */
 public class MyMapFragmentCallback extends MapFragmentCallback {
+    private Context mContext;
+    private String mVendors;
+
+    public MyMapFragmentCallback(Context context, String vendors) {
+        mContext = context;
+        mVendors = vendors;
+    }
 
     @Override
     public void onMapReadyCallback(HyperTrackMapFragment hyperTrackMapFragment, GoogleMap map) {
         //Write your code here
         super.onMapReadyCallback(hyperTrackMapFragment, map);
+        try {
+            JSONArray jsonArray=new JSONArray(mVendors);
+            for (int i=0;i<jsonArray.length();i++){
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                JSONArray jsonArray1=jsonObject.getJSONArray("Location");
+                JSONObject jsonObject1=jsonArray1.getJSONObject(0);
+                String lat=jsonObject1.getString("lat");
+                String lng=jsonObject1.getString("long");
+                Double lt=Double.parseDouble(lat);
+                Double lg=Double.parseDouble(lng);
+                LatLng latLng=new LatLng(lt,lg);
+                String mVendorName=jsonObject.getString("VendorName");
+                hyperTrackMapFragment.addCustomMarker(new MarkerOptions().position(latLng)
+                        .title(mVendorName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    @Override
+    public void onCustomMarkerClicked(HyperTrackMapFragment hyperTrackMapFragment, Marker customMarker) {
+        customMarker.showInfoWindow();
+        Util.toastS(mContext,"Marker");
+
+        super.onCustomMarkerClicked(hyperTrackMapFragment, customMarker);
+
     }
 
     /**

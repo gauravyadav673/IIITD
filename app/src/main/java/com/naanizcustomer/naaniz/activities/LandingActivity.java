@@ -42,11 +42,12 @@ public class LandingActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private final String TAG="LANDING";
     private RecyclerView mItemRV;
+    private String mAllVendors;
+    private boolean mGetVendors=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //   FacebookSdk.sdkInitialize(LandingActivity.this);
         AccountKit.initialize(LandingActivity.this);
         setContentView(R.layout.activity_landing);
         mTrackBtn = (Button) findViewById(R.id.track_btn);
@@ -55,11 +56,17 @@ public class LandingActivity extends AppCompatActivity {
         mTrackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trackAction();
+                if (mGetVendors) {
+                    trackAction();
+                }else {
+                    Util.toastS(LandingActivity.this,"Getting vendors");
+                    getVendors();
+                }
             }
         });
         initItemsRecyclerView();
         getAllItems();
+        getVendors();
     }
 
     @Override
@@ -88,14 +95,12 @@ public class LandingActivity extends AppCompatActivity {
         // customization on succes response of trackAction method
         ArrayList<String> actions = new ArrayList<>();
         actions.add("#hemant123");
-
         HyperTrack.trackAction(actions, new HyperTrackCallback() {
             @Override
             public void onSuccess(@NonNull SuccessResponse response) {
-
-
                 //Start Activity containing HyperTrackMapFragment
                 Intent intent = new Intent(LandingActivity.this, TrackingActivity.class);
+                intent.putExtra("vendors",mAllVendors);
                 startActivity(intent);
             }
 
@@ -109,6 +114,7 @@ public class LandingActivity extends AppCompatActivity {
         });
 
     }
+    //get all the items sold by vendors
     private void getAllItems(){
         String url= Config.API_URL+Config.ITEMS_URL+Config.GET_ALL_ITEMS_URL;
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -134,8 +140,7 @@ public class LandingActivity extends AppCompatActivity {
                             String name=item.getString("ItemName");
                             String soldBy=item.getString("SoldBy");
                             Double pr=Double.parseDouble(price);
-                            int sldby=Integer.parseInt(soldBy);
-                            itemses.add(new Items(categ,name,priceType,sldby,pr));
+                            itemses.add(new Items(categ,name,priceType,soldBy,pr));
                         }
                         setAdapterToRV(itemses);
                     }else{
@@ -162,5 +167,41 @@ public class LandingActivity extends AppCompatActivity {
     }
     private void setAdapterToRV(ArrayList<Items> itemses){
         mItemRV.setAdapter(new ItemsRecycyclerViewAdapter(itemses,LandingActivity.this));
+    }
+    private void getVendors(){
+        String url=Config.API_URL+Config.VENDORS_URL+Config.GET_ALL_VENDORS_URL;
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG,response);
+                try {
+                    JSONArray jsonArray=new JSONArray(response);
+                    Log.d(TAG,"array"+jsonArray.toString());
+                    JSONObject jsonObject=jsonArray.getJSONObject(0);
+                    ArrayList<Items> itemses=new ArrayList<>();
+                    int success=jsonObject.getInt("success");
+                    if (success==1){
+                        Log.d(TAG,"success");
+                        JSONObject jsonObject1=jsonArray.getJSONObject(1);
+                        JSONArray mAllItems=jsonObject1.getJSONArray("data");
+                        mAllVendors=mAllItems.toString();
+                        mGetVendors=true;
+                    }else{
+                        Log.d(TAG,"failure");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG,error.toString());
+            }
+        });
+        stringRequest.setTag(Config.GET_ITEMS_QUEUE_TAG);
+        mRequestQueue.add(stringRequest);
+
     }
 }

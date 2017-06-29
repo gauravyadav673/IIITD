@@ -39,6 +39,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.naanizcustomer.naaniz.R;
 import com.naanizcustomer.naaniz.app.Config;
 import com.naanizcustomer.naaniz.models.Customer;
@@ -88,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         askPermissions();
         buildGoogleApiClient();
         getCustomerNumber();
+        Log.d("Firebase Token", FirebaseInstanceId.getInstance().getToken());
         mPhoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -259,6 +261,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         StringRequest stringRequest = new StringRequest(Request.Method.POST, mRegUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                Log.d("Registering user",response);
                 try {
                     JSONArray jsonArray = new JSONArray(response);
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
@@ -294,6 +298,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 params.put("lat", "" + mCustomerLatLong.latitude);
                 params.put("long", "" + mCustomerLatLong.longitude);
                 params.put("address", mAddress);
+                params.put("firebasetoken", FirebaseInstanceId.getInstance().getToken().toString());
 
                 return params;
             }

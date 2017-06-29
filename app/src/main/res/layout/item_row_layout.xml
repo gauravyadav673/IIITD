@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_margin="10dp"
               android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
               android:background="#FFC2FD"
-              android:layout_height="wrap_content">
+              android:orientation="vertical">
+
     <TextView
+        android:id="@+id/item_row_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Name"
-        android:id="@+id/item_row_name"/>
+        android:textSize="20sp"/>
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Rs. 22/pc"
         android:id="@+id/item_row_price"
-        />
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Category"
-        android:id="@+id/item_row_category"/>
+        android:gravity="center"
+        android:text="Rs. 22/pc"
+        />
+
+    <TextView
+        android:id="@+id/item_row_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Category"/>
 </LinearLayout>
