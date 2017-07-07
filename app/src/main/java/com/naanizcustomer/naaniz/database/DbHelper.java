@@ -49,7 +49,6 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Schema.OrderSchema.ORDER_DISPATCHED, String.valueOf(order.isDispatched()));
         values.put(Schema.OrderSchema.ORDER_COMPLETED, String.valueOf(order.isCompleted()));
         db.insert(Schema.OrderSchema.ORDERS_TABLE_NAME, null, values);
-
         db.close();
     }
 
@@ -84,7 +83,6 @@ public class DbHelper extends SQLiteOpenHelper {
             cursor.moveToNext();
         }
         db.close();
-
         return  mOrders;
     }
 

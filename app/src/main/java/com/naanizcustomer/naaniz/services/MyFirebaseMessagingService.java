@@ -55,7 +55,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
                 long time = remoteMessage.getSentTime();
 
-
                 handleDataMessage(json,time);
             } catch (Exception e) {
                 Log.e(TAG, "Exception: " + e.getMessage());
@@ -80,12 +79,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 /*DbHelper dbHelper = new DbHelper(getApplicationContext());
                 dbHelper.saveNotification(title, message, tTime, tDate);*/
             } else {
-/*                Intent resultIntent = new Intent(getApplicationContext(), NotificationActivity.class);
-                resultIntent.putExtra("message", message);
+                Intent resultIntent = new Intent(getApplicationContext(), LandingActivity.class);
+                resultIntent.putExtra("message", json.toString());
                 PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 7190, resultIntent, PendingIntent.FLAG_ONE_SHOT);
-                showNotification(getApplicationContext(), intent, message, title);
-                DbHelper dbHelper = new DbHelper(getApplicationContext());
-                dbHelper.saveNotification(title, message, tTime, tDate);*/
+                showNotification(getApplicationContext(), intent, json.toString(), "title");
+
             }
         }
         catch (Exception e) {

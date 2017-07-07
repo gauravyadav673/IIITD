@@ -36,6 +36,7 @@ public class MyMapFragmentCallback extends MapFragmentCallback {
     @Override
     public void onMapReadyCallback(HyperTrackMapFragment hyperTrackMapFragment, GoogleMap map) {
         //Write your code here
+
         super.onMapReadyCallback(hyperTrackMapFragment, map);
 
         try {

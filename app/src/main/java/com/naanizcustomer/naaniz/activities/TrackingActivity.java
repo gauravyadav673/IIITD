@@ -58,6 +58,7 @@ public class TrackingActivity extends AppCompatActivity  {
         sharedPrefUtil = new SharedPrefUtil(TrackingActivity.this);
         DB = new DbHelper(TrackingActivity.this);
         i=getIntent();
+
         s=i.getStringExtra("vendors");
         itemName = i.getStringExtra("itemName");
         category = i.getStringExtra("category");
@@ -92,7 +93,6 @@ public class TrackingActivity extends AppCompatActivity  {
                 getSupportFragmentManager().findFragmentById(R.id.htMapfragment);
         hyperTrackMapFragment.setHTMapAdapter(new TrackingMapAdapter(TrackingActivity.this));
         hyperTrackMapFragment.setMapFragmentCallback(new MyMapFragmentCallback(TrackingActivity.this,s));
-
     }
 
     @Override
@@ -188,10 +188,22 @@ public class TrackingActivity extends AppCompatActivity  {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("response placing order", response);
 
-                        //DB.saveOrder(new Order(itemName, category, actionID, schedule, false, false));
-                        Util.toastS(TrackingActivity.this, "Order Placed");
-                        Log.d("response", response);
+                        try {
+                            JSONArray jsonArray=new JSONArray(response);
+                            JSONObject jsonObject=jsonArray.getJSONObject(0);
+                            int i=jsonObject.getInt("success");
+                            if (i==1){
+                                Util.toastS(TrackingActivity.this, "Order Placed");
+                                DB.saveOrder(new Order(itemName, category, actionID, schedule, false, false));
+                            }else{
+                                Util.toastS(TrackingActivity.this, "Error Placing Order");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

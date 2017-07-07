@@ -117,9 +117,12 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
                             if(result.getJSONObject(0).getString("success").equals("1")){
                                 String actionId = result.getJSONObject(1).getString("action_id");
                                 getVendors(actionId, position);
+                            }else{
+                                Util.toastS(mContext,"Error ordering!");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Util.toastS(mContext,"Server Error");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -209,6 +212,7 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
                     intent.putExtra("itemName", mItemses.get(posi).getItemName());
                     intent.putExtra("category", mItemses.get(posi).getCategory());
                     intent.putExtra("scheduledat", scheduledAt);
+                    intent.putExtra(Config.INTENT_STATUS,Config.INTENT_STATUS_ORDERING);
                     mContext.startActivity(intent);
                 }else{
                     Util.toastS(mContext, "Server error");

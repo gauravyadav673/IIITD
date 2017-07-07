@@ -27,6 +27,10 @@ public class Config {
     public static final String REQUEST_QUEUE_TAG="register";
     public static final String GET_ITEMS_QUEUE_TAG="getitems";
     public static final int PERMISSION_ALL = 1;
+    public static final String INTENT_STATUS="status";
+    public static final String INTENT_STATUS_ORDERING="ordering";
+    public static final String INTENT_STATUS_TRACKING="tracking";
+    public static final String INTENT_KEY_ACTION_ID="action_id";
     public static final String[] PERMISSIONS = {Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.RECEIVE_SMS,Manifest.permission.INTERNET,Manifest.permission.ACCESS_NETWORK_STATE};
 

@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="16dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/order_row_order_number"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="ORDER NO."
         android:textStyle="bold"
         />
-</RelativeLayout>
+
+    <TextView
+        android:id="@+id/order_row_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="Item Name"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/order_row_item_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Item Category"
+        />
+
+    <Button
+        android:id="@+id/order_row_track_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Track Button"/>
+</LinearLayout>
