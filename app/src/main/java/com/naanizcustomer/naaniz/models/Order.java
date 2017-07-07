@@ -5,55 +5,90 @@ package com.naanizcustomer.naaniz.models;
  */
 
 public class Order {
-    private String mOrderName,mOrderCategory;
-    private Double mOrderPrice,mOrderQuantity;
-    private Integer mVendorAadhaar;
+    private String itemName, itemCategory, actionID, scheduledAt, vendorName, vendorLookupID;
+    private boolean isDispatched, isCompleted;
 
-    public Order(String orderName, String orderCategory, Double orderPrice, Double orderQuantity, Integer vendorAadhaar) {
-        mOrderName = orderName;
-        mOrderCategory = orderCategory;
-        mOrderPrice = orderPrice;
-        mOrderQuantity = orderQuantity;
-        mVendorAadhaar = vendorAadhaar;
+    public Order(String itemName, String itemCategory, String actionID, String scheduledAt, String vendorName, String vendorLookupID, boolean isDispatched, boolean isCompleted) {
+        this.itemName = itemName;
+        this.itemCategory = itemCategory;
+        this.actionID = actionID;
+        this.scheduledAt = scheduledAt;
+        this.vendorName = vendorName;
+        this.vendorLookupID = vendorLookupID;
+        this.isDispatched = isDispatched;
+        this.isCompleted = isCompleted;
     }
 
-    public String getOrderName() {
-        return mOrderName;
+    public Order(String itemName, String itemCategory, String actionID, String scheduledAt, boolean isDispatched, boolean isCompleted) {
+        this.itemName = itemName;
+        this.itemCategory = itemCategory;
+        this.actionID = actionID;
+        this.scheduledAt = scheduledAt;
+        this.isDispatched = isDispatched;
+        this.isCompleted = isCompleted;
     }
 
-    public void setOrderName(String orderName) {
-        mOrderName = orderName;
+    public String getItemName() {
+        return itemName;
     }
 
-    public String getOrderCategory() {
-        return mOrderCategory;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public void setOrderCategory(String orderCategory) {
-        mOrderCategory = orderCategory;
+    public String getItemCategory() {
+        return itemCategory;
     }
 
-    public Double getOrderPrice() {
-        return mOrderPrice;
+    public void setItemCategory(String itemCategory) {
+        this.itemCategory = itemCategory;
     }
 
-    public void setOrderPrice(Double orderPrice) {
-        mOrderPrice = orderPrice;
+    public String getActionID() {
+        return actionID;
     }
 
-    public Double getOrderQuantity() {
-        return mOrderQuantity;
+    public void setActionID(String actionID) {
+        this.actionID = actionID;
     }
 
-    public void setOrderQuantity(Double orderQuantity) {
-        mOrderQuantity = orderQuantity;
+    public String getScheduledAt() {
+        return scheduledAt;
     }
 
-    public Integer getVendorAadhaar() {
-        return mVendorAadhaar;
+    public void setScheduledAt(String scheduledAt) {
+        this.scheduledAt = scheduledAt;
     }
 
-    public void setVendorAadhaar(Integer vendorAadhaar) {
-        mVendorAadhaar = vendorAadhaar;
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getVendorLookupID() {
+        return vendorLookupID;
+    }
+
+    public void setVendorLookupID(String vendorLookupID) {
+        this.vendorLookupID = vendorLookupID;
+    }
+
+    public boolean isDispatched() {
+        return isDispatched;
+    }
+
+    public void setDispatched(boolean dispatched) {
+        isDispatched = dispatched;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 }

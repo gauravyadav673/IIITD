@@ -10,11 +10,13 @@ import com.naanizcustomer.naaniz.interfaces.DbConstUtils;
 public class DbUtils implements DbConstUtils{
 
     public static final String CREATE_ORDERS_TABLE=CREATE_TABLE+IF_NOT_EXISTS+ Schema.OrderSchema.ORDERS_TABLE_NAME+LEFT_BRACKET
-            + Schema.OrderSchema._ID+INTEGER+PRIMARY_KEY+COMMA_SEP
-            + Schema.OrderSchema.ORDER_NAME+TEXT+COMMA_SEP
-            + Schema.OrderSchema.ORDER_CATEGORY+TEXT+COMMA_SEP
-            + Schema.OrderSchema.ORDER_PRICE+TEXT+COMMA_SEP
-            + Schema.OrderSchema.ORDER_QUANTITY+TEXT+COMMA_SEP
-            + Schema.OrderSchema.ORDER_VENDOR_AADHAAR+TEXT+COMMA_SEP
+            + Schema.OrderSchema.ORDER_ACTION_ID+TEXT+PRIMARY_KEY+COMMA_SEP
+            + Schema.OrderSchema.ORDER_ITEM_NAME+TEXT+COMMA_SEP
+            + Schema.OrderSchema.ORDER_ITEM_CATEGORY+TEXT+COMMA_SEP
+            + Schema.OrderSchema.ORDER_SCHEDULED_AT+TEXT+COMMA_SEP
+            + Schema.OrderSchema.ORDER_VENDOR_NAME+TEXT+COMMA_SEP
+            + Schema.OrderSchema.ORDER_VENDOR_LOOKUPID+TEXT+COMMA_SEP
+            + Schema.OrderSchema.ORDER_DISPATCHED+TEXT+COMMA_SEP
+            + Schema.OrderSchema.ORDER_COMPLETED+TEXT
             +RIGHT_BRACKET;
 }

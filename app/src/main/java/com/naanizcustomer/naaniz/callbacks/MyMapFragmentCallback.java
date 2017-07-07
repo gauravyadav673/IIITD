@@ -2,6 +2,7 @@ package com.naanizcustomer.naaniz.callbacks;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -36,7 +37,22 @@ public class MyMapFragmentCallback extends MapFragmentCallback {
     public void onMapReadyCallback(HyperTrackMapFragment hyperTrackMapFragment, GoogleMap map) {
         //Write your code here
         super.onMapReadyCallback(hyperTrackMapFragment, map);
+
         try {
+            JSONArray data = new JSONArray(mVendors);
+            for (int i = 0 ; i < data.length() ; i++){
+                JSONObject oneVendor = data.getJSONObject(i);
+                LatLng ltlng = new LatLng(oneVendor.getDouble("LastLocationLong"), oneVendor.getDouble("LastLocationLat"));
+                String vendorName = "Vendor";
+                Log.d("latlang", ltlng.toString());
+                hyperTrackMapFragment.addCustomMarker(new MarkerOptions().position(ltlng)
+                        .title(vendorName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        /*        try {
             JSONArray jsonArray=new JSONArray(mVendors);
             for (int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
@@ -54,7 +70,7 @@ public class MyMapFragmentCallback extends MapFragmentCallback {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
 
 

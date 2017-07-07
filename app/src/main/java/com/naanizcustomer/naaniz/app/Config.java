@@ -18,6 +18,12 @@ public class Config {
     public static final String GET_ALL_ITEMS_URL="/getallitems";
     public static final String VENDORS_URL="/vendors";
     public static final String GET_ALL_VENDORS_URL="/allvendors";
+    public static final String NEARBY_VENDORS="/nearbyvendors";
+    public static final String ACTIONS_URL="/actions";
+    public static final String CREATE_ACTIONS_URL="/createaction";
+    public static final String ORDER="/orders";
+    public static final String PLACE_ORDER="/placeorder";
+    public static final String NOTIFY_VENDORS = "/notifyvendors";
     public static final String REQUEST_QUEUE_TAG="register";
     public static final String GET_ITEMS_QUEUE_TAG="getitems";
     public static final int PERMISSION_ALL = 1;

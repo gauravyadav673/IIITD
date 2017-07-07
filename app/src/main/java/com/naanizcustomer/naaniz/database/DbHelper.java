@@ -40,11 +40,14 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.clear();
-        values.put(Schema.OrderSchema.ORDER_NAME, order.getOrderName());
-        values.put(Schema.OrderSchema.ORDER_CATEGORY, order.getOrderCategory());
-        values.put(Schema.OrderSchema.ORDER_PRICE, order.getOrderPrice());
-        values.put(Schema.OrderSchema.ORDER_QUANTITY, order.getOrderQuantity());
-        values.put(Schema.OrderSchema.ORDER_VENDOR_AADHAAR, order.getVendorAadhaar());
+        values.put(Schema.OrderSchema.ORDER_ACTION_ID, order.getActionID());
+        values.put(Schema.OrderSchema.ORDER_ITEM_NAME, order.getItemName());
+        values.put(Schema.OrderSchema.ORDER_ITEM_CATEGORY, order.getItemCategory());
+        values.put(Schema.OrderSchema.ORDER_SCHEDULED_AT, order.getScheduledAt());
+        values.put(Schema.OrderSchema.ORDER_VENDOR_NAME, order.getVendorName());
+        values.put(Schema.OrderSchema.ORDER_VENDOR_LOOKUPID, order.getVendorLookupID());
+        values.put(Schema.OrderSchema.ORDER_DISPATCHED, String.valueOf(order.isDispatched()));
+        values.put(Schema.OrderSchema.ORDER_COMPLETED, String.valueOf(order.isCompleted()));
         db.insert(Schema.OrderSchema.ORDERS_TABLE_NAME, null, values);
 
         db.close();
@@ -53,26 +56,31 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<Order> retrieveOrders() {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<Order> mOrders=new ArrayList<>();
-        String projection[] = {Schema.OrderSchema.ORDER_NAME,
-                Schema.OrderSchema.ORDER_CATEGORY,
-                Schema.OrderSchema.ORDER_PRICE,
-                Schema.OrderSchema.ORDER_QUANTITY,
-                Schema.OrderSchema.ORDER_VENDOR_AADHAAR,};
+        String projection[] = {Schema.OrderSchema.ORDER_ACTION_ID,
+                Schema.OrderSchema.ORDER_ITEM_NAME,
+                Schema.OrderSchema.ORDER_ITEM_CATEGORY,
+                Schema.OrderSchema.ORDER_SCHEDULED_AT,
+                Schema.OrderSchema.ORDER_VENDOR_NAME,
+                Schema.OrderSchema.ORDER_VENDOR_LOOKUPID,
+                Schema.OrderSchema.ORDER_DISPATCHED,
+                Schema.OrderSchema.ORDER_COMPLETED};
         Cursor cursor = db.query(Schema.OrderSchema.ORDERS_TABLE_NAME, projection, null, null, null, null, null);
         int l = cursor.getCount();
         cursor.moveToFirst();
         while(l>0)
         {
             l--;
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_NAME));
-            String category=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_CATEGORY));
-            String price=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_PRICE));
-            String quantity=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_QUANTITY));
-            String vendor_aadhaar=cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_VENDOR_AADHAAR));
-            Double mPrice=Double.parseDouble(price);
-            Double mQuantity=Double.parseDouble(quantity);
-            Integer mAadhaar=Integer.parseInt(vendor_aadhaar);
-            mOrders.add(new Order(name,category,mPrice,mQuantity,mAadhaar));
+            String actionID = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_ACTION_ID));
+            String itemName = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_ITEM_NAME));
+            String itemCategory = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_ITEM_CATEGORY));
+            String scheduledAt = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_SCHEDULED_AT));
+            String vendorName = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_VENDOR_NAME));
+            String vendorLookup = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_VENDOR_LOOKUPID));
+            String dispatched = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_DISPATCHED));
+            String delivered  =cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_COMPLETED));
+            Boolean isDispatched = Boolean.valueOf(dispatched);
+            Boolean isDelivered = Boolean.valueOf(delivered);
+            mOrders.add(new Order(itemName, itemCategory, actionID, scheduledAt, vendorName, vendorLookup, isDispatched, isDelivered));
             cursor.moveToNext();
         }
         db.close();

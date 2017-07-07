@@ -3,14 +3,18 @@ package com.naanizcustomer.naaniz.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.ParseException;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.naanizcustomer.naaniz.app.Config;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -39,6 +43,13 @@ public class Util {
             }
         }
         return true;
+    }
+    public static boolean isNetConnected(Context context){
+        ConnectivityManager connectivityManager=(ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo=connectivityManager.getActiveNetworkInfo();
+        boolean b=(networkInfo!=null&&networkInfo.isConnected());
+        Log.d("Internet Connectivity:",""+b);
+        return b;
     }
     public java.util.Date dateFromString() {
 
@@ -87,6 +98,13 @@ public class Util {
 
     private static double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
+    }
+
+    public static String getScheduleDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, 1);
+        String time = String.valueOf(calendar.getTimeInMillis());
+        return time;
     }
 
 }

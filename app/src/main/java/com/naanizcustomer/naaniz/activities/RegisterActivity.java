@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         askPermissions();
         buildGoogleApiClient();
         getCustomerNumber();
-        Log.d("Firebase Token", FirebaseInstanceId.getInstance().getToken());
+      //  Log.d("Firebase Token", FirebaseInstanceId.getInstance().getToken());
         mPhoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,6 +268,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     int a = jsonObject.getInt("failed");
                     int b = jsonObject.getInt("success");
+
                     if (a == 0 && b == 1) {
                         saveCustomerData();
                         mProgressDialog.cancel();
@@ -299,7 +300,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 params.put("long", "" + mCustomerLatLong.longitude);
                 params.put("address", mAddress);
                 params.put("firebasetoken", FirebaseInstanceId.getInstance().getToken().toString());
-
                 return params;
             }
         };

@@ -23,6 +23,8 @@ import com.naanizcustomer.naaniz.R;
 import com.naanizcustomer.naaniz.utils.SharedPrefUtil;
 import com.naanizcustomer.naaniz.utils.Util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +36,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Date d=new Date();
+
+        Log.d("Date:",""+d.getTime());
         mSharedPrefUtil=new SharedPrefUtil(SplashActivity.this);
         mRequestQueue= Volley.newRequestQueue(SplashActivity.this);
+        
         if (mSharedPrefUtil.isCustomerRegistered()){
             i=new Intent(SplashActivity.this,LandingActivity.class);
         }else{

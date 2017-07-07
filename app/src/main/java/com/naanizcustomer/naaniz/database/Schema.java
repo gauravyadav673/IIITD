@@ -11,13 +11,16 @@ public class Schema {
     }
 
     public static class OrderSchema implements BaseColumns {
-        public static final String ORDERS_TABLE_NAME = "Customers";
-        public static final String ORDER_NAME = "Customer_Name";
-        public static final String ORDER_VENDOR_AADHAAR = "Customer_Contact";
-        public static final String ORDER_CATEGORY = "Customer_Lat";
-        public static final String ORDER_PRICE = "Customer_Long";
-        public static final String ORDER_QUANTITY = "Customer_Address";
-        public static final String ORDER_DATE = "orderDate";
+        public static final String ORDERS_TABLE_NAME = "Orders";
+        public static final String ORDER_ITEM_NAME = "Item_Name";
+        public static final String ORDER_ITEM_CATEGORY = "Item_Category";
+        public static final String ORDER_ACTION_ID = "ActionID";
+        public static final String ORDER_SCHEDULED_AT = "ScheduledAt";
+        public static final String ORDER_VENDOR_NAME = "Vendor_Name";
+        public static final String ORDER_VENDOR_LOOKUPID = "Vendor_LookupID";
+        public static final String ORDER_DISPATCHED = "IsDispatched";
+        public static final String ORDER_COMPLETED = "IsCompleted";
+
     }
 
 }

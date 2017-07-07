@@ -70,31 +70,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("datasadsa",json.toString());
             //JSONObject data = json.getJSONObject("data");
 
-
-        /*    Date date=new Date(time);
-            String tDate=new SimpleDateFormat("EEE, MMM d, yyyy").format(date);
-            String tDay=new SimpleDateFormat("d").format(date);
-            String tMon=new SimpleDateFormat("MMM").format(date);
-            String tTime=new SimpleDateFormat("h:mm a").format(date);
-            Log.e(TAG, "Month: " + tMon);
-            Log.e(TAG, "Day: " + tDay);
-            Log.e(TAG, "tTime " + tTime);
-
-
-            String title = data.getString("title").trim();
-            String message = data.getString("message").trim();
-            boolean isBackground = data.getBoolean("is_background");
-            String imageUrl = data.getString("image");
-            String timestamp = data.getString("timestamp");
-            JSONObject payload = data.getJSONObject("payload");
-            Log.e(TAG, "title: " + title);
-            Log.e(TAG, "message: " + message);
-            Log.e(TAG, "isBackground: " + isBackground);
-            Log.e(TAG, "payload: " + payload.toString());
-            Log.e(TAG, "imageUrl: " + imageUrl);
-            Log.e(TAG, "timestamp: " + timestamp);
-            int day=Integer.parseInt(tDay);*/
-
             if (!isAppIsInBackground(getApplicationContext())) {
                 //foreground
                 Intent resultIntent = new Intent(getApplicationContext(), LandingActivity.class);
