@@ -12,6 +12,7 @@ public interface DbConstUtils {
     String PRIMARY_KEY=" PRIMARY KEY ";
     String CREATE_TABLE=" CREATE TABLE ";
     String IF_NOT_EXISTS=" IF NOT EXISTS ";
+    String DROP_TABLE = " DROP TABLE IF EXISTS '";
     String LEFT_BRACKET=" ( ";
     String RIGHT_BRACKET=" ) ";
 }

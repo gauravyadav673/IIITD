@@ -1,5 +1,6 @@
 package com.naanizcustomer.naaniz.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -65,6 +66,8 @@ public class TrackingActivity extends AppCompatActivity  {
         actionID = i.getStringExtra("actionID");
         schedule = i.getStringExtra("scheduledat");
         Log.d("vendors", s);
+        Log.d("latlng", sharedPrefUtil.getCustomerDetails().getLatLng().toString());
+
         initUI();
 
         mOrderBtn.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +199,7 @@ public class TrackingActivity extends AppCompatActivity  {
                             int i=jsonObject.getInt("success");
                             if (i==1){
                                 Util.toastS(TrackingActivity.this, "Order Placed");
-                                DB.saveOrder(new Order(itemName, category, actionID, schedule, false, false));
+                                DB.saveOrder(new Order(itemName, category, actionID, schedule, false, false, false, false));
                             }else{
                                 Util.toastS(TrackingActivity.this, "Error Placing Order");
                             }

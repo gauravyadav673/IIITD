@@ -49,7 +49,7 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
     private RequestQueue mRequestQueue;
     private SharedPrefUtil mSharedPrefUtil;
     private String scheduledAt;
-
+    ProgressDialog pd;
 
     public ItemsRecycyclerViewAdapter(ArrayList<Items> itemses, Context context) {
         mItemses = itemses;
@@ -59,6 +59,7 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
         mOrderProgress.setCancelable(false);
         mRequestQueue= Volley.newRequestQueue(context);
         mSharedPrefUtil = new SharedPrefUtil(context);
+        pd = Util.getProgDialog(context, "Wait", "loading...", false);
     }
 
     @Override
@@ -76,6 +77,7 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
             @Override
             public void onClick(View v) {
                 if (Util.isNetConnected(mContext)){
+                    pd.show();
                     createAction(position);
                     //Util.toastS(mContext,"Placing Order");
                 }else{
@@ -169,10 +171,6 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
         mRequestQueue.add(stringRequest);
     }*/
 
-    private void openMap(){
-
-    }
-
         private void getVendors(final String actionID, final int position){
             String url=Config.API_URL+Config.VENDORS_URL+Config.NEARBY_VENDORS;
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -213,6 +211,7 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
                     intent.putExtra("category", mItemses.get(posi).getCategory());
                     intent.putExtra("scheduledat", scheduledAt);
                     intent.putExtra(Config.INTENT_STATUS,Config.INTENT_STATUS_ORDERING);
+                    pd.dismiss();
                     mContext.startActivity(intent);
                 }else{
                     Util.toastS(mContext, "Server error");

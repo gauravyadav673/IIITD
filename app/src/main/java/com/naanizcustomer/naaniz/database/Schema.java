@@ -20,6 +20,8 @@ public class Schema {
         public static final String ORDER_VENDOR_LOOKUPID = "Vendor_LookupID";
         public static final String ORDER_DISPATCHED = "IsDispatched";
         public static final String ORDER_COMPLETED = "IsCompleted";
+        public static final String ORDER_CONFIRMED = "IsConfirmed";
+        public static final String ORDER_ACCEPTED = "IsAccepted";
 
     }
 

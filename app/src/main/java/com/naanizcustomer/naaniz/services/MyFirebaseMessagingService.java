@@ -17,6 +17,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.naanizcustomer.naaniz.R;
 import com.naanizcustomer.naaniz.activities.LandingActivity;
+import com.naanizcustomer.naaniz.activities.MyOrdersActivity;
+import com.naanizcustomer.naaniz.database.DbHelper;
 
 import org.json.JSONObject;
 
@@ -53,37 +55,43 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
             try {
                 JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                long time = remoteMessage.getSentTime();
-
-                handleDataMessage(json,time);
+                String type = json.getJSONObject("data").getString("Type");
+                if(type.equals("2")){
+                    handleDataMessage(json.getJSONObject("data"));
+                }
             } catch (Exception e) {
                 Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
     }
 
-    private void handleDataMessage(JSONObject json,long time) {
+    private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());
 
         try {
             Log.d("datasadsa",json.toString());
-            //JSONObject data = json.getJSONObject("data");
 
             if (!isAppIsInBackground(getApplicationContext())) {
-                //foreground
-                Intent resultIntent = new Intent(getApplicationContext(), LandingActivity.class);
-                resultIntent.putExtra("message", json.toString());
-                PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 7190, resultIntent, PendingIntent.FLAG_ONE_SHOT);
-                showNotification(getApplicationContext(), intent, json.toString(), "title");
-                //showNotification(getApplicationContext(),null,message,title);
-                /*DbHelper dbHelper = new DbHelper(getApplicationContext());
-                dbHelper.saveNotification(title, message, tTime, tDate);*/
-            } else {
-                Intent resultIntent = new Intent(getApplicationContext(), LandingActivity.class);
-                resultIntent.putExtra("message", json.toString());
-                PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 7190, resultIntent, PendingIntent.FLAG_ONE_SHOT);
-                showNotification(getApplicationContext(), intent, json.toString(), "title");
+                String status = json.getString("Status");
+                if(status.equals("Accepted")){
+                    String actionID = json.getString("ActionId");
+                    String vendorName = json.getString("VendorName");
+                    String vendorLookupID = json.getString("VendorLookupId");
+                    DbHelper dbHelper = new DbHelper(getApplicationContext());
+                    dbHelper.setAcceptedAndVendorDetails(actionID, vendorName, vendorLookupID);
+                    sendNotification(json.getString("VendorName") + " has accepted the order", "Accepted");
+                }
 
+            } else {
+                String status = json.getString("Status");
+                if(status.equals("Accepted")){
+                    String actionID = json.getString("ActionId");
+                    String vendorName = json.getString("VendorName");
+                    String vendorLookupID = json.getString("VendorLookupId");
+                    DbHelper dbHelper = new DbHelper(getApplicationContext());
+                    dbHelper.setAcceptedAndVendorDetails(actionID, vendorName, vendorLookupID);
+                    sendNotification(json.getString("VendorName") + " has accepted the order", "Accepted");
+                }
             }
         }
         catch (Exception e) {
@@ -115,28 +123,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return isInBackground;
     }
 
-    private void showNotification(Context context,PendingIntent intent,String mssg,String head){
+    private void sendNotification(String messageBody, String heading) {
+        Intent intent = new Intent(this, MyOrdersActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
 
-        Notification.Builder builder = new Notification.Builder(context);
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.addLine(mssg);
-        long pattern[] = {100,200,300,400};
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Notification notification = new Notification();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            notification = builder.
-                    setSmallIcon(R.mipmap.ic_launcher)
-                    .setTicker("Elements Culmyca").setWhen(0)
-                    .setAutoCancel(true)
-                    .setContentTitle(head)
-                    .setContentIntent(intent)
-                    .setSound(defaultSoundUri)
+        android.support.v4.app.NotificationCompat.Builder notificationBuilder = new android.support.v7.app.NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(heading)
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
 
-                    .setVibrate(pattern)
-                    .setContentText(mssg)
-                    .build();
-        }
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(7190, notification);
-    }
-}
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }}

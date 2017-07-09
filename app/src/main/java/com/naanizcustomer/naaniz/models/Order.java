@@ -6,9 +6,9 @@ package com.naanizcustomer.naaniz.models;
 
 public class Order {
     private String itemName, itemCategory, actionID, scheduledAt, vendorName, vendorLookupID;
-    private boolean isDispatched, isCompleted;
+    private boolean isDispatched, isCompleted, isAccepted, isConfirmed;
 
-    public Order(String itemName, String itemCategory, String actionID, String scheduledAt, String vendorName, String vendorLookupID, boolean isDispatched, boolean isCompleted) {
+    public Order(String itemName, String itemCategory, String actionID, String scheduledAt, String vendorName, String vendorLookupID, boolean isDispatched, boolean isCompleted, boolean isAccepted, boolean isConfirmed) {
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.actionID = actionID;
@@ -17,15 +17,19 @@ public class Order {
         this.vendorLookupID = vendorLookupID;
         this.isDispatched = isDispatched;
         this.isCompleted = isCompleted;
+        this.isAccepted = isAccepted;
+        this.isConfirmed = isConfirmed;
     }
 
-    public Order(String itemName, String itemCategory, String actionID, String scheduledAt, boolean isDispatched, boolean isCompleted) {
+    public Order(String itemName, String itemCategory, String actionID, String scheduledAt, boolean isDispatched, boolean isCompleted, boolean isAccepted, boolean isConfirmed) {
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.actionID = actionID;
         this.scheduledAt = scheduledAt;
         this.isDispatched = isDispatched;
         this.isCompleted = isCompleted;
+        this.isAccepted = isAccepted;
+        this.isConfirmed = isConfirmed;
     }
 
     public String getItemName() {
@@ -90,5 +94,21 @@ public class Order {
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
+    }
+
+    public boolean isConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        isConfirmed = confirmed;
     }
 }

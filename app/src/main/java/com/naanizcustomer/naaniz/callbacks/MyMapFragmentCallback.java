@@ -49,6 +49,7 @@ public class MyMapFragmentCallback extends MapFragmentCallback {
                 hyperTrackMapFragment.addCustomMarker(new MarkerOptions().position(ltlng)
                         .title(vendorName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

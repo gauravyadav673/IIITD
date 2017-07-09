@@ -12,4 +12,9 @@
         android:id="@+id/log_out_option"
         android:title="Log Out"
         />
+
+    <item
+        android:id="@+id/clear_data_option"
+        android:title="Clear data"
+        />
 </menu>

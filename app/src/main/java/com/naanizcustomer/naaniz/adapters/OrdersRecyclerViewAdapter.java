@@ -4,12 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.hypertrack.lib.HyperTrack;
 import com.hypertrack.lib.callbacks.HyperTrackCallback;
 import com.hypertrack.lib.models.ErrorResponse;
@@ -17,10 +25,17 @@ import com.hypertrack.lib.models.SuccessResponse;
 import com.naanizcustomer.naaniz.R;
 import com.naanizcustomer.naaniz.activities.OrderTrackingActivity;
 import com.naanizcustomer.naaniz.app.Config;
+import com.naanizcustomer.naaniz.database.DbHelper;
 import com.naanizcustomer.naaniz.models.Order;
+import com.naanizcustomer.naaniz.utils.SharedPrefUtil;
 import com.naanizcustomer.naaniz.utils.Util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hemba on 7/7/2017.
@@ -29,10 +44,16 @@ import java.util.ArrayList;
 public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecyclerViewAdapter.OrderViewHolder> {
     private Context mContext;
     private ArrayList<Order> mOrders;
+    private RequestQueue requestQueue;
+    private SharedPrefUtil sharedPrefUtil;
+    private DbHelper dbHelper;
 
     public OrdersRecyclerViewAdapter(Context context, ArrayList<Order> orders) {
         mContext = context;
         mOrders = orders;
+        requestQueue = Volley.newRequestQueue(context);
+        sharedPrefUtil = new SharedPrefUtil(context);
+        dbHelper = new DbHelper(context);
     }
 
     @Override
@@ -47,8 +68,9 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
         holder.mOrderNoTV.setText("" + (position + 1));
         holder.mOrderNameTV.setText(mOrders.get(position).getItemName());
         holder.mOrderCatTV.setText(mOrders.get(position).getItemCategory());
-        boolean bDispatched = mOrders.get(position).isDispatched();
-        if (bDispatched) {
+        boolean bAccepted = mOrders.get(position).isAccepted();
+        boolean bConfirmed = mOrders.get(position).isConfirmed();
+        if (bAccepted && bConfirmed) {
             holder.mOrderTrackButton.setEnabled(true);
             holder.mOrderTrackButton.setText("Track Order");
             holder.mOrderTrackButton.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +80,15 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
                     trackAction(actionID);
                 }
             });
-        } else {
-            holder.mOrderTrackButton.setText("Not DIspatched");
-            holder.mOrderTrackButton.setEnabled(false);
+        } else if(bAccepted){
+            holder.mOrderTrackButton.setText("Confirm");
+            holder.mOrderTrackButton.setEnabled(true);
+            holder.mOrderTrackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    confirmOrder(position);
+                }
+            });
         }
     }
 
@@ -105,6 +133,42 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
 
             }
         });
+    }
+
+    private void confirmOrder(final int Position){
+        String url = Config.API_URL + Config.ORDER + Config.CONFIRM_ORDER;
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Confirm Response", response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            String success = jsonArray.getJSONObject(0).getString("success");
+                            if(success.equals("1")){
+                                dbHelper.setConfirmed(mOrders.get(Position).getActionID());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Confirm Error", error.toString());
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("actionid", mOrders.get(Position).getActionID());
+                params.put("customername", sharedPrefUtil.getCustomerDetails().getName());
+                params.put("lookupid", mOrders.get(Position).getVendorLookupID());
+                params.put("customer", String.valueOf(sharedPrefUtil.getCustomerDetails().getContact()));
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
     }
 }
 

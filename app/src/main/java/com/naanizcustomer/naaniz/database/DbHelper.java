@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.naanizcustomer.naaniz.models.Customer;
 import com.naanizcustomer.naaniz.models.Order;
@@ -48,6 +49,8 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Schema.OrderSchema.ORDER_VENDOR_LOOKUPID, order.getVendorLookupID());
         values.put(Schema.OrderSchema.ORDER_DISPATCHED, String.valueOf(order.isDispatched()));
         values.put(Schema.OrderSchema.ORDER_COMPLETED, String.valueOf(order.isCompleted()));
+        values.put(Schema.OrderSchema.ORDER_CONFIRMED, String.valueOf(order.isConfirmed()));
+        values.put(Schema.OrderSchema.ORDER_ACCEPTED, String.valueOf(order.isAccepted()));
         db.insert(Schema.OrderSchema.ORDERS_TABLE_NAME, null, values);
         db.close();
     }
@@ -62,7 +65,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 Schema.OrderSchema.ORDER_VENDOR_NAME,
                 Schema.OrderSchema.ORDER_VENDOR_LOOKUPID,
                 Schema.OrderSchema.ORDER_DISPATCHED,
-                Schema.OrderSchema.ORDER_COMPLETED};
+                Schema.OrderSchema.ORDER_COMPLETED,
+                Schema.OrderSchema.ORDER_CONFIRMED,
+                Schema.OrderSchema.ORDER_ACCEPTED
+        };
         Cursor cursor = db.query(Schema.OrderSchema.ORDERS_TABLE_NAME, projection, null, null, null, null, null);
         int l = cursor.getCount();
         cursor.moveToFirst();
@@ -77,17 +83,48 @@ public class DbHelper extends SQLiteOpenHelper {
             String vendorLookup = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_VENDOR_LOOKUPID));
             String dispatched = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_DISPATCHED));
             String delivered  =cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_COMPLETED));
+            String confirmed = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_CONFIRMED));
+            String accepted = cursor.getString(cursor.getColumnIndexOrThrow(Schema.OrderSchema.ORDER_ACCEPTED));
             Boolean isDispatched = Boolean.valueOf(dispatched);
             Boolean isDelivered = Boolean.valueOf(delivered);
-            mOrders.add(new Order(itemName, itemCategory, actionID, scheduledAt, vendorName, vendorLookup, isDispatched, isDelivered));
+            Boolean isConfirmed = Boolean.valueOf(confirmed);
+            Boolean isAccepted = Boolean.valueOf(accepted);
+            mOrders.add(new Order(itemName, itemCategory, actionID, scheduledAt, vendorName, vendorLookup, isDispatched, isDelivered, isAccepted, isConfirmed));
             cursor.moveToNext();
         }
         db.close();
         return  mOrders;
     }
 
+    public void setAcceptedAndVendorDetails(String actionID, String VendorName, String VendorLookupID){
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.clear();
+            try{
+                contentValues.put(Schema.OrderSchema.ORDER_VENDOR_NAME, VendorName);
+                contentValues.put(Schema.OrderSchema.ORDER_VENDOR_LOOKUPID, VendorLookupID);
+                contentValues.put(Schema.OrderSchema.ORDER_ACCEPTED, String.valueOf(true));
+                db.update(Schema.OrderSchema.ORDERS_TABLE_NAME, contentValues, Schema.OrderSchema.ORDER_ACTION_ID+"=\""+actionID+"\"", null);
+            }catch (Exception e){
+                Log.d("CurrentError", e.toString());
+        }
+    }
 
+    public void setConfirmed(String actionID){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.clear();
+        try{
+            contentValues.put(Schema.OrderSchema.ORDER_CONFIRMED, String.valueOf(true));
+            db.update(Schema.OrderSchema.ORDERS_TABLE_NAME, contentValues, Schema.OrderSchema.ORDER_ACTION_ID+"=\""+actionID+"\"", null);
+        }catch (Exception e){
+            Log.d("CurrentError", e.toString());
+        }
+    }
 
-
-
+    public void clearOrdersTable(){
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL(DbUtils.DROP_ORDERS_TABLE);
+        database.execSQL(DbUtils.CREATE_ORDERS_TABLE);
+    }
 }

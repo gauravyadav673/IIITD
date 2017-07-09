@@ -30,6 +30,7 @@ import com.hypertrack.lib.models.SuccessResponse;
 import com.naanizcustomer.naaniz.R;
 import com.naanizcustomer.naaniz.adapters.ItemsRecycyclerViewAdapter;
 import com.naanizcustomer.naaniz.app.Config;
+import com.naanizcustomer.naaniz.database.DbHelper;
 import com.naanizcustomer.naaniz.models.Items;
 import com.naanizcustomer.naaniz.utils.SharedPrefUtil;
 import com.naanizcustomer.naaniz.utils.Util;
@@ -54,6 +55,7 @@ public class LandingActivity extends AppCompatActivity {
     private boolean mGetVendors=false;
     ArrayList<Items> itemses=new ArrayList<>();
     ProgressDialog pd;
+    DbHelper dbHelper;
 
 
     @Override
@@ -63,6 +65,7 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
        // mTrackBtn = (Button) findViewById(R.id.track_btn);
         mSharedPrefUtil = new SharedPrefUtil(LandingActivity.this);
+        dbHelper = new DbHelper(LandingActivity.this);
         ordersBtn = (Button) findViewById(R.id.myOrders_btn);
         mRequestQueue= Volley.newRequestQueue(LandingActivity.this);
         ordersBtn.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +124,12 @@ public class LandingActivity extends AppCompatActivity {
                 Intent i = new Intent(LandingActivity.this, RegisterActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                break;
+
+            case R.id.clear_data_option:
+                dbHelper.clearOrdersTable();
+                Util.toastS(LandingActivity.this, "Data Cleared");
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
