@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.naanizcustomer.naaniz.models.Customer;
 import com.naanizcustomer.naaniz.models.Order;
 
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void saveOrder(Order order) {
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.clear();
@@ -52,6 +52,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Schema.OrderSchema.ORDER_CONFIRMED, String.valueOf(order.isConfirmed()));
         values.put(Schema.OrderSchema.ORDER_ACCEPTED, String.valueOf(order.isAccepted()));
         db.insert(Schema.OrderSchema.ORDERS_TABLE_NAME, null, values);
+        Log.d("inserted", " ");
         db.close();
     }
 

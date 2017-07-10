@@ -28,6 +28,7 @@ import com.facebook.accountkit.AccountKit;
 import com.facebook.accountkit.AccountKitCallback;
 import com.facebook.accountkit.AccountKitError;
 import com.facebook.accountkit.AccountKitLoginResult;
+import com.facebook.accountkit.PhoneNumber;
 import com.facebook.accountkit.ui.AccountKitActivity;
 import com.facebook.accountkit.ui.AccountKitConfiguration;
 import com.facebook.accountkit.ui.LoginType;
@@ -64,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private String mAddress;
     private LatLng mCustomerLatLong;
     private String mCustomerName;
-    private int mCustomerNumber = 0;
+    private String mCustomerNumber;
     private SharedPrefUtil mSharedPrefUtil;
     private Button mPhoneButton;
     private TextView mPhoneTv;
@@ -117,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             @Override
             public void onClick(View v) {
                 mCustomerName = mNameInp.getText().toString();
-                if ((mCustomerName.length() > 0) && (mCustomerNumber != 0) && placeKnown) {
+                if ((mCustomerName.length() > 0) && (mCustomerNumber.length() > 0) && placeKnown) {
                     mProgressDialog = Util.getProgDialog(mContext, "Registering", "Please Wait we are logging you in...", false);
                     regCustomerOnServer();
                 } else {
@@ -217,10 +218,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
             @Override
             public void onSuccess(Account account) {
-                String s = account.getPhoneNumber().toString().substring(3, 12);
-                int contact = Integer.parseInt(s);
-                mCustomerNumber = contact;
-                mPhoneTv.setText("" + account.getPhoneNumber());
+                mCustomerNumber = account.getPhoneNumber().toString().substring(3, 12);
+                mPhoneTv.setText(mCustomerNumber);
             }
             @Override
             public void onError(AccountKitError error) {

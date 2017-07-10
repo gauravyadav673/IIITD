@@ -21,7 +21,7 @@ public class SharedPrefUtil implements SharedPrefConstantUtils {
     public void saveCustomerDetails(Customer mCustomer){
         mEditor.putBoolean(CUSTOMER_SAVED,true);
         mEditor.putString(CUSTOMER_NAME,mCustomer.getName());
-        mEditor.putInt(CUSTOMER_CONTACT,mCustomer.getContact());
+        mEditor.putString(CUSTOMER_CONTACT,mCustomer.getContact());
         mEditor.putString(CUSTOMER_LAT,""+mCustomer.getLatLng().latitude);
         mEditor.putString(CUSTOMER_LONG,""+mCustomer.getLatLng().longitude);
         mEditor.putString(CUSTOMER_ADDRESS,mCustomer.getAddress());
@@ -38,7 +38,7 @@ public class SharedPrefUtil implements SharedPrefConstantUtils {
 
     public Customer getCustomerDetails(){
         String name=mSharedPreferences.getString(CUSTOMER_NAME,null);
-        int contact=mSharedPreferences.getInt(CUSTOMER_CONTACT,0);
+        String contact=mSharedPreferences.getString(CUSTOMER_CONTACT,null);
         Double mLat=Double.parseDouble(mSharedPreferences.getString(CUSTOMER_LAT,null));
         Double mLong=Double.parseDouble(mSharedPreferences.getString(CUSTOMER_LONG,null));
         String addr=mSharedPreferences.getString(CUSTOMER_ADDRESS,null);

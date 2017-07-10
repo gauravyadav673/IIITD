@@ -23,6 +23,7 @@ public class Config {
     public static final String CREATE_ACTIONS_URL="/createaction";
     public static final String ORDER="/orders";
     public static final String PLACE_ORDER="/placeorder";
+    public static final String GET_ORDERS = "/getordersofbuyer";
     public static final String CONFIRM_ORDER = "/confirm";
     public static final String NOTIFY_VENDORS = "/notifyvendors";
     public static final String REQUEST_QUEUE_TAG="register";
@@ -32,6 +33,12 @@ public class Config {
     public static final String INTENT_STATUS_ORDERING="ordering";
     public static final String INTENT_STATUS_TRACKING="tracking";
     public static final String INTENT_KEY_ACTION_ID="action_id";
+    public static final String mOrderStatusRequested="Requested";
+    public static final String mOrderStatusAccepted="Accepted";
+    public static final String mOrderStatusAssigned="Assigned";
+    public static final String mOrderStatusConfirmed="Confirmed";
+    public static final String mOrderStatusDispatched="Dispatched";
+    public static final String mOrderStatusCompleted="Completed";
     public static final String[] PERMISSIONS = {Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.RECEIVE_SMS,Manifest.permission.INTERNET,Manifest.permission.ACCESS_NETWORK_STATE};
 

@@ -70,7 +70,11 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
         holder.mOrderCatTV.setText(mOrders.get(position).getItemCategory());
         boolean bAccepted = mOrders.get(position).isAccepted();
         boolean bConfirmed = mOrders.get(position).isConfirmed();
-        if (bAccepted && bConfirmed) {
+        boolean bCompleted = mOrders.get(position).isCompleted();
+        if(bCompleted){
+            holder.mOrderTrackButton.setEnabled(false);
+            holder.mOrderTrackButton.setText("COMPLETED");
+        }else if (bAccepted && bConfirmed) {
             holder.mOrderTrackButton.setEnabled(true);
             holder.mOrderTrackButton.setText("Track Order");
             holder.mOrderTrackButton.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +93,9 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
                     confirmOrder(position);
                 }
             });
+        } else{
+            holder.mOrderTrackButton.setEnabled(false);
+            holder.mOrderTrackButton.setText("Waiting for Vendor");
         }
     }
 
@@ -148,6 +155,8 @@ public class OrdersRecyclerViewAdapter extends RecyclerView.Adapter<OrdersRecycl
                             if(success.equals("1")){
                                 dbHelper.setConfirmed(mOrders.get(Position).getActionID());
                             }
+                            Util.toastS(mContext, "confirmed");
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

@@ -8,11 +8,11 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Customer  {
     private String mName;
-    private int mContact;
+    private String mContact;
     private LatLng mLatLng;
     private String mAddress;
 
-    public Customer(String name, int contact, LatLng latLng, String address) {
+    public Customer(String name, String contact, LatLng latLng, String address) {
         mName = name;
         mContact = contact;
         mLatLng = latLng;
@@ -27,11 +27,11 @@ public class Customer  {
         mName = name;
     }
 
-    public int getContact() {
+    public String getContact() {
         return mContact;
     }
 
-    public void setContact(int contact) {
+    public void setContact(String contact) {
         mContact = contact;
     }
 
