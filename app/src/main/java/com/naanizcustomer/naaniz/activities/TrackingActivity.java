@@ -186,6 +186,8 @@ public class TrackingActivity extends AppCompatActivity  {
     }*/
 
     private void placeOrder(){
+        final ProgressDialog pd = Util.getProgDialog(getApplicationContext(), "Wait", "Ordering...", false);
+        pd.show();
         String url = Config.API_URL + Config.ORDER + Config.PLACE_ORDER;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -203,9 +205,11 @@ public class TrackingActivity extends AppCompatActivity  {
                             }else{
                                 Util.toastS(TrackingActivity.this, "Error Placing Order");
                             }
+                            pd.dismiss();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            pd.dismiss();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -213,6 +217,7 @@ public class TrackingActivity extends AppCompatActivity  {
             public void onErrorResponse(VolleyError error) {
                 Log.d("Error", error.toString());
                 Util.toastS(TrackingActivity.this, "Error");
+                pd.dismiss();
             }
         }){
             @Override
