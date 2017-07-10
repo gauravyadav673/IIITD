@@ -108,6 +108,7 @@ public class MyOrdersActivity extends AppCompatActivity {
                         }
                         Util.toastS(MyOrdersActivity.this, "Orders updated");
                         pd.dismiss();
+                        initRv(orders);
                     }else{
                         Util.toastS(MyOrdersActivity.this,"Error getting orders");
                         pd.dismiss();
