@@ -65,6 +65,8 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(mContext).inflate(R.layout.item_row_layout,parent,false);
+        Log.d("address", mSharedPrefUtil.getCustomerDetails().getAddress());
+
         return new ItemViewHolder(view);
     }
 
@@ -78,16 +80,13 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
             public void onClick(View v) {
                 if (Util.isNetConnected(mContext)){
                     pd.show();
-                    createAction(position);
+                    getVendors("67efa3ce-2d46-4ddd-9306-3c7644055e82",position);
                     //Util.toastS(mContext,"Placing Order");
                 }else{
                     Util.toastS(mContext,"Connect to internet");
-
                 }
-
             }
         });
-
     }
 
     @Override
@@ -107,24 +106,30 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
         }
     }
 
-    private void createAction(final int position){
+/*    private void createAction(final int position){
         String url = Config.API_URL + Config.ACTIONS_URL +Config.CREATE_ACTIONS_URL;
+        Log.d("App", url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("response", response);
+                        Log.d("respons", response);
                         try {
                             JSONArray result = new JSONArray(response);
                             if(result.getJSONObject(0).getString("success").equals("1")){
                                 String actionId = result.getJSONObject(1).getString("action_id");
                                 getVendors(actionId, position);
+                                pd.dismiss();
+
                             }else{
                                 Util.toastS(mContext,"Error ordering!");
+                                pd.dismiss();
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Util.toastS(mContext,"Server Error");
+                            pd.dismiss();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -138,13 +143,16 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
                 scheduledAt = Util.getScheduleDate();
                 Map<String, String> params = new HashMap<>();
                 params.put("scheduledat", scheduledAt);
+                params.put("lat", String.valueOf(mSharedPrefUtil.getCustomerDetails().getLatLng().latitude));
+                params.put("long", String.valueOf(mSharedPrefUtil.getCustomerDetails().getLatLng().longitude));
                 params.put("address", mSharedPrefUtil.getCustomerDetails().getAddress());
+                Log.d("App", mSharedPrefUtil.getCustomerDetails().getAddress());
                 return params;
             }
         };
         mRequestQueue.add(stringRequest);
     }
-
+*/
 /*    private void notifyVendors(final String actionID, final int position){
         String url = Config.API_URL + Config.ORDER + Config.NOTIFY_VENDORS;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -183,13 +191,13 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Util.toastS(mContext, "fuck");
                 }
             }){
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("actionid", actionID);
+                    params.put("actionid", "67efa3ce-2d46-4ddd-9306-3c7644055e82");
                     params.put("itemname", mItemses.get(position).getItemName());
                     return params;
                 }
@@ -200,6 +208,7 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
         private void parseVendorResponse(String result, String actionID, int posi){
             try {
                 JSONArray response = new JSONArray(result);
+                Log.d("App", response.toString());
                 if(response.getJSONObject(0).getString("success").equals("1")){
                     JSONArray data = response.getJSONArray(2);
                     String VedorData = data.toString();
@@ -211,7 +220,6 @@ public class ItemsRecycyclerViewAdapter extends RecyclerView.Adapter<ItemsRecycy
                     intent.putExtra("category", mItemses.get(posi).getCategory());
                     intent.putExtra("scheduledat", scheduledAt);
                     intent.putExtra(Config.INTENT_STATUS,Config.INTENT_STATUS_ORDERING);
-                    pd.dismiss();
                     mContext.startActivity(intent);
                 }else{
                     Util.toastS(mContext, "Server error");

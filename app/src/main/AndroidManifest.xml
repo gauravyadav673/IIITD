@@ -77,7 +77,7 @@
         <activity android:name=".activities.MyOrdersActivity">
         </activity>
         <activity android:name=".activities.OrderTrackingActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppThemeNoActionBar"/>
     </application>
 
 </manifest>

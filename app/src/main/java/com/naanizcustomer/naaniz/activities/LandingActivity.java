@@ -81,6 +81,7 @@ public class LandingActivity extends AppCompatActivity {
         }else {
             Util.toastS(LandingActivity.this, "No Internet");
         }
+        Util.getScheduleDate();
 /*        getVendors();*/
     }
 
@@ -138,7 +139,7 @@ public class LandingActivity extends AppCompatActivity {
 
 /*    private void trackAction() {
         // Call trackAction API method with action ID for tracking.
-        // Start YourMapActivity containing HyperTrackMapFragment view with the
+        // Start YourMapAc  tivity containing HyperTrackMapFragment view with the
         // customization on succes response of trackAction method
         ArrayList<String> actions = new ArrayList<>();
         actions.add("#hemant123");

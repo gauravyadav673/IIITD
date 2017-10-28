@@ -104,6 +104,7 @@ public class Util {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.HOUR, 1);
         String time = String.valueOf(calendar.getTimeInMillis());
+        Log.d("time", time);
         return time;
     }
 

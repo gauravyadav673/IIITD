@@ -92,8 +92,7 @@ public class TrackingActivity extends AppCompatActivity  {
         /** Initialize Map Fragment added in Activity Layout to getMapAsync
          *  Once map is created onMapReady callback will be fire with GoogleMap object
          */
-        hyperTrackMapFragment = (HyperTrackMapFragment)
-                getSupportFragmentManager().findFragmentById(R.id.htMapfragment);
+        hyperTrackMapFragment = (HyperTrackMapFragment) getSupportFragmentManager().findFragmentById(R.id.htMapfragment);
         hyperTrackMapFragment.setHTMapAdapter(new TrackingMapAdapter(TrackingActivity.this));
         hyperTrackMapFragment.setMapFragmentCallback(new MyMapFragmentCallback(TrackingActivity.this,s));
     }
@@ -187,7 +186,7 @@ public class TrackingActivity extends AppCompatActivity  {
 
     private void placeOrder(){
         final ProgressDialog pd = Util.getProgDialog(getApplicationContext(), "Wait", "Ordering...", false);
-        pd.show();
+        //pd.show();
         String url = Config.API_URL + Config.ORDER + Config.PLACE_ORDER;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

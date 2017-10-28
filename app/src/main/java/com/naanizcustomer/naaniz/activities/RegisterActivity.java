@@ -62,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     private EditText mNameInp;
     private boolean placeKnown = false;
     private Context mContext;
-    private String mAddress;
+    private String mAddress = "Okhla Indusrial Estate, Phase III, near Govind Puri Metro Station, Shyam Nagar, Okhla industrial area, Delhi, 110020, India";
     private LatLng mCustomerLatLong;
     private String mCustomerName;
     private String mCustomerNumber;

@@ -10,7 +10,7 @@ import android.Manifest;
 public class Config {
     public static final int PHONE_REQUEST_CODE=0;
     public static final int PLACE_REQUEST_CODE=1;
-    public static final String API_URL="https://naanibackend.herokuapp.com/api/v1";
+    public static final String API_URL="https://iiitd.herokuapp.com/api/v1";
     public static final String CUSTOMERS_URL="/customers";
     public static final String ALL_CUSTOMERS_URL="/allcustomers";
     public static final String REGISTER_CUSTOMER_URL="/registercustomer";
