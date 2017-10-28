@@ -62,8 +62,10 @@
         </activity>
         <activity
             android:name=".activities.LandingActivity"
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.RegisterActivity"/>
+        <activity android:name=".activities.RegisterActivity"
+                  android:theme="@style/AppTheme"/>
         <activity android:name=".activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -72,6 +74,7 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name=".activities.TrackingActivity"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity android:name=".activities.MyOrdersActivity">

@@ -10,9 +10,7 @@ import com.hypertrack.lib.HyperTrackMapFragment;
  */
 
 public class TrackingMapAdapter extends HyperTrackMapAdapter {
-
     private Context mContext;
-
     public TrackingMapAdapter(Context mContext) {
         super(mContext);
         this.mContext = mContext;

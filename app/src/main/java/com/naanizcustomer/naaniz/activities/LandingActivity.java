@@ -63,6 +63,7 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AccountKit.initialize(LandingActivity.this);
         setContentView(R.layout.activity_landing);
+
        // mTrackBtn = (Button) findViewById(R.id.track_btn);
         mSharedPrefUtil = new SharedPrefUtil(LandingActivity.this);
         dbHelper = new DbHelper(LandingActivity.this);
